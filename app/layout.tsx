@@ -57,7 +57,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
               </div>
             </div>
           </ReactQueryProvider>
-          <TailwindIndicator />
+                    {/*
+             <TailwindIndicator />
+          */}
+       
+\
         </Providers>
       </body>
     </html>
