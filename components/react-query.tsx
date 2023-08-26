@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
+// Create a client
+const queryClient = new QueryClient()
 
 function ReactQueryProvider({ children }: React.PropsWithChildren) {
-  const [client] = React.useState(new QueryClient());
 
   return (
-    <QueryClientProvider client={client}>
-      <ReactQueryStreamedHydration>{children}</ReactQueryStreamedHydration>
+    <QueryClientProvider client={queryClient}>
+      {children}
     </QueryClientProvider>
   );
 }
