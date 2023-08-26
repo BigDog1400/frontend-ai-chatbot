@@ -9,7 +9,7 @@ export const Sidebar = async () => {
     .catch(err => console.log(err));
 
   return (
-    <div className='w-72 flex flex-col justify-between inset-y-0 left-0 z-10  min-h-screen border-r bg-background p-6 shadow-lg'>
+    <div className='w-72 flex flex-col inset-y-0 left-0 z-10  min-h-screen border-r bg-background p-6 shadow-lg'>
       <div className='flex flex-col sm:flex-row sm:justify-start sm:space-x-2'>
         <h1>Tickets History</h1>
       </div>
@@ -30,9 +30,6 @@ export const Sidebar = async () => {
         ) : (
           <p>There are not tickets</p>
         )}
-      </div>
-      <div className='flex-1'>
-        <ThemeToggle />
       </div>
     </div>
   );

@@ -2,7 +2,6 @@
 
 import { useChat, type Message } from 'ai/react';
 
-
 import { ChatList } from '@/components/chat-list';
 import { ChatPanel } from '@/components/chat-panel';
 import { EmptyScreen } from '@/components/empty-screen';
@@ -23,8 +22,8 @@ import { toast } from 'react-hot-toast';
 import { TextHint } from './text-hint';
 import clsx from 'clsx';
 import { XIcon } from './ui/icons';
-import { useAtBottom } from '@/lib/hooks/use-at-bottom'
-import { IconArrowDown } from '@/components/ui/icons'
+import { useAtBottom } from '@/lib/hooks/use-at-bottom';
+import { IconArrowDown } from '@/components/ui/icons';
 import { cn } from '@/lib/utils';
 
 const IS_PREVIEW = process.env.VERCEL_ENV === 'preview';
@@ -40,7 +39,7 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
   );
   const [previewTokenDialog, setPreviewTokenDialog] = useState(IS_PREVIEW);
   const scrollContainerRef = useRef(null);
-  const [ModalClose, setModalClose] = useState(false);
+  const [ModalClose, setModalClose] = useState(true);
   const [previewTokenInput, setPreviewTokenInput] = useState(
     previewToken ?? '',
   );
@@ -100,38 +99,45 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
 
       <div
         ref={scrollContainerRef}
-        className={cn('pb-[420px] pt-28 mx-auto w-full px-4 max-w-4xl h-screen overflow-y-scroll relative', className)}
+        className={cn(
+          'pb-[420px] pt-28 mx-auto w-full px-4 max-w-4xl h-screen overflow-y-scroll relative',
+          className,
+        )}
       >
-          <ChatList messages={messages} ModalClose={ModalClose} setModalClose={setModalClose} />
-          <div
+        <ChatList
+          messages={messages}
+          ModalClose={ModalClose}
+          setModalClose={setModalClose}
+        />
+        <div
           className={clsx('', {
-            'lg:mt-[510px] mt-[320px]': messages.length === 0
+            'lg:mt-[510px] mt-[320px]': messages.length === 0,
           })}
         >
           <div
             className={clsx('mx-auto max-w-2xl px-4 ', {
-              hidden: ModalClose
+              hidden: ModalClose,
             })}
           >
-            <div className="rounded-lg border bg-background p-8 relative">
+            <div className='rounded-lg border bg-background p-8 relative'>
               {messages.length > 0 && (
                 <button
                   onClick={() => setModalClose(true)}
-                  type="button"
+                  type='button'
                   className='absolute top-4 right-4 w-6 h-6 cursor-pointer'
                 >
                   <XIcon />
                 </button>
               )}
 
-              <h1 className="mb-2 text-lg font-semibold">Sugerencias:</h1>
+              <h1 className='mb-2 text-lg font-semibold'>Sugerencias:</h1>
 
-              <div className="mt-4 flex lg:flex-row flex-col items-start lg:space-x-2 lg:space-y-0 space-y-3">
+              <div className='mt-4 flex lg:flex-row flex-col items-start lg:space-x-2 lg:space-y-0 space-y-3'>
                 {exampleMessages.map((message, index) => (
                   <Button
                     key={index}
-                    variant="secondary"
-                    className="h-auto py-1 px-3 text-base"
+                    variant='secondary'
+                    className='h-auto py-1 px-3 text-base'
                   >
                     {message.heading}
                   </Button>
@@ -140,28 +146,27 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
             </div>
           </div>
         </div>
-   
+
         <ChatScrollAnchor trackVisibility={isLoading} />
       </div>
       <Button
-      variant="outline"
-      size="icon"
-      className={clsx(
-        'absolute right-4 top-20 z-10 bg-background transition-opacity duration-300 sm:right-8  ',
-        className
-      )}
-      onClick={() => {
-        if (scrollContainerRef.current) {
+        variant='outline'
+        size='icon'
+        className={clsx(
+          'absolute right-4 top-20 z-10 bg-background transition-opacity duration-300 sm:right-8  ',
+          className,
+        )}
+        onClick={() => {
+          if (scrollContainerRef.current) {
             const element = scrollContainerRef.current;
             element.scrollTop = element.scrollHeight;
-        }
-    }}
-  
-    >
-      <IconArrowDown />
-      
-      <span className="sr-only">Scroll to bottom</span>
-    </Button>
+          }
+        }}
+      >
+        <IconArrowDown />
+
+        <span className='sr-only'>Scroll to bottom</span>
+      </Button>
       <ChatPanel
         id={id}
         isLoading={isLoading}
