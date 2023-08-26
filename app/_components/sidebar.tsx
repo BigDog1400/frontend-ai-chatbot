@@ -19,11 +19,7 @@ export const Sidebar = async () => {
             {ticketList.map((ticket: any) => (
               <>
                 <Link
-                  href={`chat/${ticket.number
-                    .replace(/\s/g, '')
-                    .toLowerCase()
-                    .trimStart()
-                    .trimEnd()}`}
+                  href={`chat/${ticket.number}`}
                   className='relative border p-3 rounded-md my-3 cursor-pointer'
                 >
                   {ticket.initialContext}
