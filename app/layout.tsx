@@ -49,7 +49,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <Header />
             <div className="flex h-screen">
               <Sidebar />
-              <main className="flex flex-row items-center justify-center w-full flex-1 bg-muted/50">
+              <main className="flex flex-row items-center justify-between px-4 w-full flex-1 bg-muted/50">
                 {children}
               </main>
             </div>
