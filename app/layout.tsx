@@ -44,8 +44,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         )}
       >
         <Toaster />
-        <Providers attribute='class' defaultTheme='system' enableSystem>
-          <ReactQueryProvider>
+
+        <ReactQueryProvider>
+          <Providers attribute='class' defaultTheme='system' enableSystem>
             <div className='flex flex-col min-h-screen'>
               {/* @ts-ignore */}
               <Header />
@@ -56,9 +57,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 </main>
               </div>
             </div>
-          </ReactQueryProvider>
-          <TailwindIndicator />
-        </Providers>
+            <TailwindIndicator />
+          </Providers>
+        </ReactQueryProvider>
       </body>
     </html>
   );
