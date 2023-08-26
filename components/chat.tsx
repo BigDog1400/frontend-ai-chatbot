@@ -51,14 +51,38 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
   return (
     <>
       <div className={cn('pb-[200px] pt-4 md:pt-10', className)}>
-        {messages.length ? (
-          <>
-            <ChatList messages={messages} />
-            <ChatScrollAnchor trackVisibility={isLoading} />
-          </>
-        ) : (
-          <EmptyScreen setInput={setInput} />
-        )}
+        <div className='flex justify-center gap-10'>
+          <div className='flex flex-col gap-2'>
+            <div className={`rounded-lg border bg-background p-8 ${true ? 'border-blue-500' : 'border-gray-300'} cursor-pointer`}>
+              <div className='font-bold text-2xl'>OpenAI Chatbot</div>
+              <div className='text-sm text-gray-400'>
+                AI chatbot using GPTs-3
+              </div>
+            </div>
+            <div className='rounded-lg border bg-background p-8'>
+              <div className='font-bold text-2xl'>OpenAI Chatbot</div>
+              <div className='text-sm text-gray-400'>
+                AI chatbot using GPTs-3
+              </div>
+            </div>
+            <div className='rounded-lg border bg-background p-8'>
+              <div className='font-bold text-2xl'>OpenAI Chatbot</div>
+              <div className='text-sm text-gray-400'>
+                AI chatbot using GPTs-3
+              </div>
+            </div>
+          </div>
+          <div className='flex flex-col'>
+            {messages.length ? (
+              <>
+                <ChatList messages={messages} />
+                <ChatScrollAnchor trackVisibility={isLoading} />
+              </>
+            ) : (
+              <EmptyScreen setInput={setInput} />
+            )}
+          </div>
+        </div>
       </div>
       <ChatPanel
         id={id}
