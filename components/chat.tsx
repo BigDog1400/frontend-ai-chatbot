@@ -20,6 +20,9 @@ import { useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { toast } from 'react-hot-toast'
+import { TextHint } from './text-hint'
+import clsx from 'clsx'
+import { XIcon } from './ui/icons'
 
 const IS_PREVIEW = process.env.VERCEL_ENV === 'preview'
 export interface ChatProps extends React.ComponentProps<'div'> {
@@ -33,6 +36,7 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
     null
   )
   const [previewTokenDialog, setPreviewTokenDialog] = useState(IS_PREVIEW)
+  const [ModalClose, setModalClose] = useState(false)
   const [previewTokenInput, setPreviewTokenInput] = useState(previewToken ?? '')
   const { messages, append, reload, stop, isLoading, input, setInput } =
     useChat({
@@ -48,6 +52,21 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
         }
       }
     })
+
+  const exampleMessages = [
+    {
+      heading: 'Explain technical concepts',
+      message: `What is a "serverless function"?`
+    },
+    {
+      heading: 'Summarize an article',
+      message: 'Summarize the following article for a 2nd grader: \n'
+    },
+    {
+      heading: 'Draft an email',
+      message: `Draft an email to my boss about the following: \n`
+    }
+  ]
   return (
     <>
       <div className={cn('pb-[200px] pt-4 md:pt-10', className)}>
@@ -78,7 +97,7 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
                 <div className='flex flex-col'>
                   {messages.length ? (
                     <>
-                      <ChatList messages={messages} />
+                      <ChatList messages={messages} ModalClose={ModalClose} setModalClose={setModalClose} />
                       <ChatScrollAnchor trackVisibility={isLoading} />
                     </>
                   ) : (
