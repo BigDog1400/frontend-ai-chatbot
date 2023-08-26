@@ -69,9 +69,8 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
   ]
   return (
     <>
-      <div className={cn('pb-[200px] pt-4 md:pt-10', className)}>
-        <div className='grid grid-cols-3 gap-4'>
-          <div className="col-span-1 flex gap-2 flex-col">
+        <aside className="fixed inset-y-0 left-72 hidden w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
+        <div className="col-span-1 flex gap-2 flex-col mx-auto mt-20">
             <div className={`rounded-lg border bg-background p-8 ${true ? 'border-blue-500' : 'border-gray-300'} cursor-pointer`}>
               <div className='font-bold text-2xl'>OpenAI Chatbot</div>
               <div className='text-sm text-gray-400'>
@@ -91,7 +90,13 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
               </div>
             </div>
           </div>
-          <div className="col-span-2">
+        </aside>
+     
+      <div className={cn('pb-[200px] pt-4 md:pt-10 mx-auto max-w-4xl', className)}>
+        <div className=''>
+          
+       
+          <div className="">
             <div>
               <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
                 <div className='flex flex-col'>
