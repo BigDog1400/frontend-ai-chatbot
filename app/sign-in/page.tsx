@@ -9,8 +9,8 @@ export default async function SignInPage() {
     redirect('/')
   }
   return (
-    <div className="flex h-[calc(100vh-theme(spacing.16))] items-center justify-center py-10">
-      <LoginButton />
-    </div>
+    <div className="absolute top-0 left-40 right-0 bottom-0 flex items-center justify-center py-10">
+    <LoginButton />
+  </div>
   )
 }
