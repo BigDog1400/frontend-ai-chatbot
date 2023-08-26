@@ -47,7 +47,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <div className="flex flex-col min-h-screen">
             {/* @ts-ignore */}
             <Header />
-            <div className="flex h-screen">
+            <div className="flex">
               <Sidebar />
               <main className="flex flex-row items-center justify-between px-4 w-full flex-1 bg-muted/50">
                 {children}
