@@ -8,8 +8,6 @@ export const Sidebar = async () => {
     .then(res => res.json())
     .catch(err => console.log(err));
 
-  console.log(ticketList);
-
   return (
     <div className='w-72 flex flex-col justify-between inset-y-0 left-0 z-10  min-h-screen border-r bg-background p-6 shadow-lg'>
       <div className='flex flex-col sm:flex-row sm:justify-start sm:space-x-2'>
@@ -21,7 +19,7 @@ export const Sidebar = async () => {
             {ticketList.map((ticket: any) => (
               <>
                 <Link
-                  href={`/${ticket.initialContext.toLowerCase().trim()}`}
+                  href={`chat/${ticket.number}`}
                   className='relative border p-3 rounded-md my-3 cursor-pointer'
                 >
                   {ticket.initialContext}
