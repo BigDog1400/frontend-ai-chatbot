@@ -21,7 +21,7 @@ export const Sidebar = async () => {
               <>
                 <Link
                   href={`chat/${ticket.number}`}
-                  className='relative border p-3 rounded-md my-3 cursor-pointer'
+                  className='relative rounded-lg border border-gray-300 shadow-sm p-3  my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400'
                 >
                   {ticket.initialContext}
                 </Link>
