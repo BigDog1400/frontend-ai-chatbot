@@ -17,6 +17,8 @@ export const Sidebar = () => {
   const param = useParams();
   const path = usePathname();
 
+  console.log(data);
+
   if (path !== '/sign-in')
     return (
       <div className='w-72 left-0 z-10  border-r bg-background p-6 shadow-lg overflow-y-auto h-screen'>
@@ -29,13 +31,18 @@ export const Sidebar = () => {
               {data.map((ticket: any, index: number) => (
                 <>
                   <Link
-                    href={`/chat/${ticket.number}`}
+                    href={`/chat/${ticket.number - 1}`}
                     key={ticket.number}
                     className={`relative rounded-lg border border-gray-300 shadow-sm p-3  ${
-                      parseInt(param.id) === index + 1 ? 'bg-red-400' : ''
+                      parseInt(param.id) === index + 1 ? 'bg-green-50' : ''
                     }  my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400`}
                   >
-                    {ticket.initialContext}
+                    <p>Ticket {ticket.number - 1}</p>
+                    <p>{ticket.reason}</p>
+                    <small>
+                      {ticket.status.charAt(0).toUpperCase() +
+                        ticket.status.slice(1)}
+                    </small>
                   </Link>
                 </>
               ))}
