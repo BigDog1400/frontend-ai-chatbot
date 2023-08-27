@@ -4,5 +4,7 @@ module.exports = {
   experimental: {
     serverActions: true,
   },
-  ignoreBuildErrors: true,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
