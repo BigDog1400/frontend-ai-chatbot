@@ -24,7 +24,7 @@ export const Sidebar = () => {
           <h1 className='font-extrabold text-2xl'>Tickets History</h1>
         </div>
         <div>
-          {data ? (
+          {data && data.length ? (
             <div className='flex flex-col'>
               {data.map((ticket: any, index: number) => (
                 <>
