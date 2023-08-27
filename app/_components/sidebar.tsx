@@ -35,7 +35,7 @@ export const Sidebar = () => {
                     key={index}
                     className={`relative rounded-2xl border border-gray-300 shadow-sm p-3  ${
                       parseInt(param.id) === ticket.number ? 'bg-gray-100' : ''
-                    }  my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400`}
+                    }  my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400 drop-shadow-sm transition`}
                   >
                     <p>Ticket {ticket.number - 1}</p>
                     <p className='font-semibold'>{ticket.reason}</p>

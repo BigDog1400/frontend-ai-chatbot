@@ -13,10 +13,10 @@ import ReactQueryProvider from '@/components/react-query';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Next.js AI Chatbot',
-    template: `%s - Next.js AI Chatbot`,
+    default: 'Chatbot Chat',
+    template: `%s - Chatbot`,
   },
-  description: 'An AI-powered chatbot template built with Next.js and Vercel.',
+  description: 'AI Chatbot',
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
     { media: '(prefers-color-scheme: light)', color: 'white' },
@@ -57,7 +57,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 </main>
               </div>
             </div>
-            <TailwindIndicator />
+            {/*
+              <TailwindIndicator />
+            */}
+          
           </Providers>
         </ReactQueryProvider>
       </body>

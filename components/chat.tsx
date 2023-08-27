@@ -93,21 +93,8 @@ export function Chat({ id, className }: ChatProps) {
     null,
   );
 
-  const exampleMessages = [
-    {
-      heading: 'Explain technical concepts',
-      message: `What is a "serverless function"?`
-    },
-    {
-      heading: 'Summarize an article',
-      message: 'Summarize the following article for a 2nd grader: \n'
-    },
-    {
-      heading: 'Draft an email',
-      message: `Draft an email to my boss about the following: \n`
-    }
-  ]
 
+  const [suggestMessage, setSuggestMessage] = useState('');
   const [previewTokenDialog, setPreviewTokenDialog] = useState(IS_PREVIEW);
   const scrollContainerRef = useRef(null);
   const [ModalClose, setModalClose] = useState(true);
@@ -118,7 +105,7 @@ export function Chat({ id, className }: ChatProps) {
 
 
   if(chatQuery.isLoading) return <p>Loading...</p>
-  if(chatQuery.isError) return <p>Error...</p>
+  if(chatQuery.isError) return null
 
   return (
     <>
@@ -126,7 +113,7 @@ export function Chat({ id, className }: ChatProps) {
         <div className='col-span-1 flex gap-2 flex-col mx-auto mt-20'>
 
              <div
-              className={`rounded-lg border bg-background p-8 ${true ? 'border-blue-500' : 'border-gray-300'} cursor-pointer`}
+              className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth ${true ? 'border-blue-400' : 'border-gray-300'} cursor-pointer`}
             >
               <div className='font-bold text-2xl'>
                 Jonh Doe
@@ -171,20 +158,23 @@ export function Chat({ id, className }: ChatProps) {
  <h1 className="mb-2 text-lg font-semibold">Sugerencias:</h1>
 
 <div className="mt-4 flex lg:flex-col flex-col items-start lg:space-x-0 lg:space-y-3 space-y-3">
-  {chatQuery.data?.suggest[0].options.map((message, index) => (
+{
+  chatQuery.data?.suggest?.[0]?.options?.map((message, index) => (
     <Button
       key={'dd' +index}
-      variant="secondary"
+      variant="outline"
       className="h-auto py-1 px-3 text-base"
     >
       {message}
     </Button>
-  ))}
-   {chatQuery.data?.suggest[0].suggests.map((message, index) => (
+  ))
+}
+   {chatQuery.data?.suggest[0]?.suggests?.map((message, index) => (
     <Button
-      key={'dd' +index}
+      key={'dd' + index}
       variant="secondary"
       className="h-auto py-1 px-3 text-base"
+      onClick={e => setInput(message)}
     >
       {message}
     </Button>
