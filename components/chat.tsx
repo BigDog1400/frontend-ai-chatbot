@@ -85,9 +85,8 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
               className={`rounded-lg border bg-background p-8 ${true ? 'border-blue-500' : 'border-gray-300'
                 } cursor-pointer`}
             >
-              <div className='font-bold text-2xl'>OpenAI Chatbot</div>
-              <div className='text-sm text-gray-400'>
-                AI chatbot using GPTdds-3
+              <div className='font-bold text-2xl'>
+                Jonh Doe
               </div>
             </div>))
           }
