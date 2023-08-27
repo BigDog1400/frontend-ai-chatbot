@@ -40,7 +40,7 @@ export interface Suggest {
 }
 
 export interface Message {
-  senderBy: 'client' | 'costumerService';
+  senderBy: 'client' | 'customerService';
   content: string;
   createAt: string;
 }
