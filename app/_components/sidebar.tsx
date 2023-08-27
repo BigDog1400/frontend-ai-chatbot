@@ -1,13 +1,25 @@
-import { ThemeToggle } from '@/components/theme-toggle';
+'use client';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 const URL = process.env.API_URL;
 
-export const Sidebar = async () => {
+const getTicketList = async () => {
   const ticketList = await fetch(`${URL}/api/tickets`)
     .then(res => res.json())
     .catch(err => console.log(err));
+
+  return ticketList;
+};
+
+export const Sidebar = () => {
+  const { data, error } = useQuery({
+    queryKey: ['tickets'],
+    queryFn: () =>
+      fetch(`https://backend-production-dbba.up.railway.app/api/tickets`).then(
+        res => res.json(),
+      ),
+  });
 
   return (
     <div className='w-72 flex flex-col inset-y-0 left-0 z-10  min-h-screen border-r bg-background p-6 shadow-lg'>
@@ -15,12 +27,13 @@ export const Sidebar = async () => {
         <h1>Tickets History</h1>
       </div>
       <div>
-        {ticketList ? (
+        {data ? (
           <div className='flex flex-col'>
-            {ticketList.map((ticket: any) => (
+            {data.map((ticket: any) => (
               <>
                 <Link
                   href={`chat/${ticket.number}`}
+                  key={ticket.number}
                   className='relative rounded-lg border border-gray-300 shadow-sm p-3  my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400'
                 >
                   {ticket.initialContext}
