@@ -1,5 +1,5 @@
 'use client';
-import { useChat, type Message } from 'ai/react';
+import { useChat } from 'ai/react';
 import { ChatList } from '@/components/chat-list';
 import { ChatPanel } from '@/components/chat-panel';
 import { EmptyScreen } from '@/components/empty-screen';
@@ -30,6 +30,36 @@ const IS_PREVIEW = process.env.VERCEL_ENV === 'preview';
 
 const URL = process.env.API_URL;
 
+export type Root = Root2[]
+
+export interface Root2 {
+  _id: string
+  initialContext: string
+  status: string
+  chat: ChatMessages[]
+  number: number
+  created_at: string
+  updated_at: string
+  suggest?: string
+}
+
+export interface Message {
+  senderBy: 'client' | 'costumerService'
+  content: string
+  createAt: string
+}
+
+export interface ChatMessages {
+  messages: Message[]
+  suggests: Suggests
+}
+
+export interface Suggests {
+  options: any
+  suggests: any
+}
+
+
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[];
@@ -40,7 +70,7 @@ export interface ChatProps extends React.ComponentProps<'div'> {
 }
 
 export function Chat({ id, initialMessages, className, chats }: ChatProps) {
-  const chatQuery = useQuery({
+  const chatQuery = useQuery<Root>({
     queryKey: ['tickets-chat', id],
     queryFn: () =>
       fetch(`https://backend-production-dbba.up.railway.app/api/tickets/${id}/chats`).then(
@@ -59,49 +89,25 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
   const [previewTokenInput, setPreviewTokenInput] = useState(
     previewToken ?? '',
   );
-  const { messages, append, reload, stop, isLoading, input, setInput } =
-    useChat({
-      initialMessages,
-      id,
-      body: {
-        id,
-        previewToken,
-      },
-      onResponse(response) {
-        if (response.status === 401) {
-          toast.error(response.statusText);
-        }
-      },
-    });
+  const [input, setInput] = useState('');
 
-  const exampleMessages = [
-    {
-      heading: 'Explain technical concepts',
-      message: `What is a "serverless function"?`,
-    },
-    {
-      heading: 'Summarize an article',
-      message: 'Summarize the following article for a 2nd grader: \n',
-    },
-    {
-      heading: 'Draft an email',
-      message: `Draft an email to my boss about the following: \n`,
-    },
-  ];
+
+  if(chatQuery.isLoading) return <p>Loading...</p>
+  if(chatQuery.isError) return <p>Error...</p>
+
   return (
     <>
       <aside className='inset-y-0 left-72 w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 h-full'>
         <div className='col-span-1 flex gap-2 flex-col mx-auto mt-20'>
-          {
-            chats?.map(chat => (<div
-              className={`rounded-lg border bg-background p-8 ${true ? 'border-blue-500' : 'border-gray-300'
-                } cursor-pointer`}
+
+             <div
+              className={`rounded-lg border bg-background p-8 ${true ? 'border-blue-500' : 'border-gray-300'} cursor-pointer`}
             >
               <div className='font-bold text-2xl'>
                 Jonh Doe
               </div>
-            </div>))
-          }
+            </div>
+          
         </div>
       </aside>
 
@@ -113,13 +119,13 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
         )}
       >
         <ChatList
-          messages={messages}
+          messages={chatQuery.data?.[0]?.chat[0].messages ?? []}
           ModalClose={ModalClose}
           setModalClose={setModalClose}
         />
         <div
           className={clsx('', {
-            'lg:mt-[510px] mt-[320px]': messages.length === 0,
+            'lg:mt-[510px] mt-[320px]': chatQuery.data?.[0]?.chat?.[0].messages?.length === 0,
           })}
         >
           <div
@@ -128,7 +134,7 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
             })}
           >
             <div className='rounded-lg border bg-background p-8 relative'>
-              {messages.length > 0 && (
+              {chatQuery.data?.[0].chat!?.[0].messages.length > 0 && (
                 <button
                   onClick={() => setModalClose(true)}
                   type='button'
@@ -138,24 +144,11 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
                 </button>
               )}
 
-              <h1 className='mb-2 text-lg font-semibold'>Sugerencias:</h1>
-
-              <div className='mt-4 flex lg:flex-row flex-col items-start lg:space-x-2 lg:space-y-0 space-y-3'>
-                {exampleMessages.map((message, index) => (
-                  <Button
-                    key={index}
-                    variant='secondary'
-                    className='h-auto py-1 px-3 text-base'
-                  >
-                    {message.heading}
-                  </Button>
-                ))}
-              </div>
             </div>
           </div>
         </div>
 
-        <ChatScrollAnchor trackVisibility={isLoading} />
+        <ChatScrollAnchor trackVisibility={chatQuery.isLoading} />
       </div>
       <Button
         variant='outline'
@@ -177,17 +170,13 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
         <span className='sr-only'>Scroll to bottom</span>
       </Button>
       <ChatPanel
-        id={id}
-        isLoading={isLoading}
-        stop={stop}
-        append={append}
-        reload={reload}
-        messages={messages}
+        isLoading={chatQuery.isLoading}
+        append={(message) => alert(message)}
         input={input}
         setInput={setInput}
       />
 
-      <Dialog open={previewTokenDialog} onOpenChange={setPreviewTokenDialog}>
+      {/* <Dialog open={previewTokenDialog} onOpenChange={setPreviewTokenDialog}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Enter your OpenAI Key</DialogTitle>
@@ -221,7 +210,7 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 }
