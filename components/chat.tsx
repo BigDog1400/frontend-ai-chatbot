@@ -1,5 +1,4 @@
 'use client';
-import { useChat } from 'ai/react';
 import { ChatList } from '@/components/chat-list';
 import { ChatPanel } from '@/components/chat-panel';
 import { EmptyScreen } from '@/components/empty-screen';
@@ -24,23 +23,21 @@ import { useAtBottom } from '@/lib/hooks/use-at-bottom';
 import { IconArrowDown } from '@/components/ui/icons';
 import { cn } from '@/lib/utils';
 import { Chats } from '@/app/chat/[id]/page';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const IS_PREVIEW = process.env.VERCEL_ENV === 'preview';
 
 const URL = process.env.API_URL;
 
-export type Root = Root2[]
+export interface Root {
+  messages: Message[]
+  suggest: Suggest[]
+}
 
-export interface Root2 {
-  _id: string
-  initialContext: string
-  status: string
-  chat: ChatMessages[]
-  number: number
-  created_at: string
-  updated_at: string
-  suggest?: string
+
+export interface Suggest {
+  options: string[]
+  suggests: string[]
 }
 
 export interface Message {
@@ -49,15 +46,9 @@ export interface Message {
   createAt: string
 }
 
-export interface ChatMessages {
-  messages: Message[]
-  suggests: Suggests
-}
 
-export interface Suggests {
-  options: any
-  suggests: any
-}
+
+
 
 
 
@@ -70,6 +61,7 @@ export interface ChatProps extends React.ComponentProps<'div'> {
 }
 
 export function Chat({ id, initialMessages, className, chats }: ChatProps) {
+  const queryClient = useQueryClient();
   const chatQuery = useQuery<Root>({
     queryKey: ['tickets-chat', id],
     queryFn: () =>
@@ -78,6 +70,26 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
       ),
     refetchInterval: 5000,
   });
+
+  const chatMessageMutation = useMutation({
+    mutationFn: (payload:{
+      senderBy: 'customerService',
+      content: string,
+    }) =>
+      fetch(`https://backend-production-dbba.up.railway.app/api/tickets/${id}/messages`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...payload }),
+      }),
+    onSuccess: () => {
+      toast.success('Message sent!');
+      queryClient.invalidateQueries();
+      setInput('');
+    },
+  });
+
   console.log({ data: chatQuery.data })
   const [previewToken, setPreviewToken] = useLocalStorage<string | null>(
     'ai-token',
@@ -119,13 +131,13 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
         )}
       >
         <ChatList
-          messages={chatQuery.data?.[0]?.chat[0].messages ?? []}
+          messages={chatQuery.data?.messages ?? []}
           ModalClose={ModalClose}
           setModalClose={setModalClose}
         />
         <div
           className={clsx('', {
-            'lg:mt-[510px] mt-[320px]': chatQuery.data?.[0]?.chat?.[0].messages?.length === 0,
+            'lg:mt-[510px] mt-[320px]': chatQuery.data?.messages?.length === 0,
           })}
         >
           <div
@@ -134,7 +146,7 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
             })}
           >
             <div className='rounded-lg border bg-background p-8 relative'>
-              {chatQuery.data?.[0].chat!?.[0].messages.length > 0 && (
+              {chatQuery.data?.messages?.length! > 0 && (
                 <button
                   onClick={() => setModalClose(true)}
                   type='button'
@@ -171,7 +183,12 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
       </Button>
       <ChatPanel
         isLoading={chatQuery.isLoading}
-        append={(message) => alert(message)}
+        append={(message) => {
+          chatMessageMutation.mutate({
+            senderBy: 'customerService',
+            content: message,
+          });
+        }}
         input={input}
         setInput={setInput}
       />

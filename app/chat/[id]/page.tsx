@@ -44,9 +44,6 @@ export default async function ChatPage({ params }: ChatPageProps) {
 
   return <Chat
     chats={chats}
-    id={params.id} initialMessages={[{
-      id: 'df',
-      content: 'bla bla',
-      role: 'system',
-    }]} />
+    id={params.id}
+  />
 }
