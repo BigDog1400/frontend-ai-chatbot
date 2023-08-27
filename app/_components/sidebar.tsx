@@ -23,7 +23,7 @@ export const Sidebar = () => {
     return (
       <div className='w-72 py-12 left-0 z-10  border-r bg-background p-6 shadow-lg overflow-y-auto h-screen'>
         <div className='flex flex-col sm:flex-row sm:justify-start sm:space-x-2'>
-          <h1 className='font-bold text-2xl'>Tickets History</h1>
+          <h1 className='font-extrabold text-2xl'>Tickets History</h1>
         </div>
         <div>
           {data ? (
