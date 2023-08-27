@@ -37,7 +37,7 @@ export const Sidebar = () => {
                       parseInt(param.id) === ticket.number ? 'bg-gray-100' : ''
                     }  my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400 drop-shadow-sm transition`}
                   >
-                    <p>Ticket {ticket.number - 1}</p>
+                    <p>Ticket {ticket.number}</p>
                     <p className='font-semibold'>{ticket.reason}</p>
                     <small>
                       {ticket.status.charAt(0).toUpperCase() +
