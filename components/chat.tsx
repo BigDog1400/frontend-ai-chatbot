@@ -1,7 +1,5 @@
 'use client';
-
 import { useChat, type Message } from 'ai/react';
-
 import { ChatList } from '@/components/chat-list';
 import { ChatPanel } from '@/components/chat-panel';
 import { EmptyScreen } from '@/components/empty-screen';
@@ -26,8 +24,13 @@ import { useAtBottom } from '@/lib/hooks/use-at-bottom';
 import { IconArrowDown } from '@/components/ui/icons';
 import { cn } from '@/lib/utils';
 import { Chats } from '@/app/chat/[id]/page';
+import { useQuery } from '@tanstack/react-query';
 
 const IS_PREVIEW = process.env.VERCEL_ENV === 'preview';
+
+const URL = process.env.API_URL;
+
+
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[];
   id?: string;
@@ -37,6 +40,15 @@ export interface ChatProps extends React.ComponentProps<'div'> {
 }
 
 export function Chat({ id, initialMessages, className, chats }: ChatProps) {
+  const chatQuery = useQuery({
+    queryKey: ['tickets-chat', id],
+    queryFn: () =>
+      fetch(`https://backend-production-dbba.up.railway.app/api/tickets/${id}/chats`).then(
+        res => res.json(),
+      ),
+    refetchInterval: 5000,
+  });
+  console.log({ data: chatQuery.data })
   const [previewToken, setPreviewToken] = useLocalStorage<string | null>(
     'ai-token',
     null,
@@ -85,9 +97,8 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
               className={`rounded-lg border bg-background p-8 ${true ? 'border-blue-500' : 'border-gray-300'
                 } cursor-pointer`}
             >
-              <div className='font-bold text-2xl'>OpenAI Chatbot</div>
-              <div className='text-sm text-gray-400'>
-                AI chatbot using GPTdds-3
+              <div className='font-bold text-2xl'>
+                Jonh Doe
               </div>
             </div>))
           }
