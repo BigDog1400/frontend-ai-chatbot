@@ -53,14 +53,11 @@ export interface Message {
 
 
 export interface ChatProps extends React.ComponentProps<'div'> {
-  initialMessages?: Message[];
   id?: string;
 
-  /** new props for our example */
-  chats: Chats
 }
 
-export function Chat({ id, initialMessages, className, chats }: ChatProps) {
+export function Chat({ id, className }: ChatProps) {
   const queryClient = useQueryClient();
   const chatQuery = useQuery<Root>({
     queryKey: ['tickets-chat', id],
@@ -95,6 +92,22 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
     'ai-token',
     null,
   );
+
+  const exampleMessages = [
+    {
+      heading: 'Explain technical concepts',
+      message: `What is a "serverless function"?`
+    },
+    {
+      heading: 'Summarize an article',
+      message: 'Summarize the following article for a 2nd grader: \n'
+    },
+    {
+      heading: 'Draft an email',
+      message: `Draft an email to my boss about the following: \n`
+    }
+  ]
+
   const [previewTokenDialog, setPreviewTokenDialog] = useState(IS_PREVIEW);
   const scrollContainerRef = useRef(null);
   const [ModalClose, setModalClose] = useState(true);
@@ -155,7 +168,28 @@ export function Chat({ id, initialMessages, className, chats }: ChatProps) {
                   <XIcon />
                 </button>
               )}
+ <h1 className="mb-2 text-lg font-semibold">Sugerencias:</h1>
 
+<div className="mt-4 flex lg:flex-col flex-col items-start lg:space-x-0 lg:space-y-3 space-y-3">
+  {chatQuery.data?.suggest[0].options.map((message, index) => (
+    <Button
+      key={'dd' +index}
+      variant="secondary"
+      className="h-auto py-1 px-3 text-base"
+    >
+      {message}
+    </Button>
+  ))}
+   {chatQuery.data?.suggest[0].suggests.map((message, index) => (
+    <Button
+      key={'dd' +index}
+      variant="secondary"
+      className="h-auto py-1 px-3 text-base"
+    >
+      {message}
+    </Button>
+  ))}
+</div>
             </div>
           </div>
         </div>

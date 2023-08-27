@@ -43,7 +43,6 @@ export default async function ChatPage({ params }: ChatPageProps) {
   // }
 
   return <Chat
-    chats={chats}
     id={params.id}
   />
 }

@@ -11,9 +11,9 @@ export default function IndexPage() {
   const id = nanoid();
   const router = useRouter();
 
-  useEffect(() => {
-    router.push('/chat/1');
-  }, [router]);
+  // useEffect(() => {
+  //   router.push('/chat/1');
+  // }, [router]);
 
-  return <Chat id={id} />;
+  return <Chat id={"2"} />;
 }
