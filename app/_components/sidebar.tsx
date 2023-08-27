@@ -1,27 +1,31 @@
-import { ThemeToggle } from '@/components/theme-toggle';
+'use client';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-const URL = process.env.API_URL;
-
-export const Sidebar = async () => {
-  const ticketList = await fetch(`${URL}/api/tickets`)
-    .then(res => res.json())
-    .catch(err => console.log(err));
+export const Sidebar = () => {
+  const { data } = useQuery({
+    queryKey: ['tickets'],
+    queryFn: () =>
+      fetch(`https://backend-production-dbba.up.railway.app/api/tickets`).then(
+        res => res.json(),
+      ),
+    refetchInterval: 5000,
+  });
 
   return (
-    <div className='w-72 flex flex-col inset-y-0 left-0 z-10  min-h-screen border-r bg-background p-6 shadow-lg'>
+    <div className='w-72 left-0 z-10  border-r bg-background p-6 shadow-lg overflow-y-auto h-screen'>
       <div className='flex flex-col sm:flex-row sm:justify-start sm:space-x-2'>
         <h1>Tickets History</h1>
       </div>
       <div>
-        {ticketList ? (
+        {data ? (
           <div className='flex flex-col'>
-            {ticketList.map((ticket: any) => (
+            {data.map((ticket: any) => (
               <>
                 <Link
-                  href={`chat/${ticket.number}`}
-                  className='relative rounded-lg border border-gray-300 shadow-sm p-3  my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400'
+                  href={`/chat/${ticket.number}`}
+                  key={ticket.number}
+                  className={`relative rounded-lg border border-gray-300 shadow-sm p-3   my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400`}
                 >
                   {ticket.initialContext}
                 </Link>
