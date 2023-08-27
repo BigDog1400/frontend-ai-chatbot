@@ -106,14 +106,31 @@ export function Chat({ id, className }: ChatProps) {
 
   return (
     <>
-      <aside className='inset-y-0 left-72 w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 h-full'>
+   <aside className='inset-y-0 left-72 w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 h-full'>
         <div className='col-span-1 flex gap-2 flex-col mx-auto mt-20'>
           <div
-            className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth ${
-              true ? 'border-blue-400' : 'border-gray-300'
+            className={`rounded-lg border  bg-gray-200 p-8 transition-all ease-in-out duration-200 shadow-smooth ${
+              true ? 'border-blue-50' : 'border-gray-300'
             } cursor-pointer`}
           >
-            <div className='font-bold text-2xl'>Jonh Doe</div>
+            <div className='font-bold text-2xl'>Cliente</div>
+          </div>
+          <div
+            className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth ${
+              true ? 'border-gray-100' : 'border-gray-300'
+            } cursor-pointer`}
+          >
+            <div className='font-bold text-2xl'>Intermediario</div>
+
+            <small>Disabled</small>
+          </div>
+          <div
+            className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth ${
+              true ? 'border-gray-100' : 'border-gray-300'
+            } cursor-pointer`}
+          >
+            <div className='font-bold text-2xl'>Negocio</div>
+            <small>Disabled</small>
           </div>
         </div>
       </aside>
@@ -165,7 +182,7 @@ export function Chat({ id, className }: ChatProps) {
                     </Button>
                   ),
                 )}
-                {chatQuery.data?.suggest[0]?.suggests?.map((message, index) => (
+                  {chatQuery.data?.suggest[0]?.suggests?.map((message, index) => (
                   <Button
                     key={'dd' + index}
                     variant='outline'
