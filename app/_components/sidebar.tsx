@@ -22,7 +22,7 @@ export const Sidebar = () => {
   });
 
   return (
-    <div className='w-72 flex flex-col inset-y-0 left-0 z-10  min-h-screen border-r bg-background p-6 shadow-lg'>
+    <div className='w-72 left-0 z-10  border-r bg-background p-6 shadow-lg overflow-y-auto h-screen'>
       <div className='flex flex-col sm:flex-row sm:justify-start sm:space-x-2'>
         <h1>Tickets History</h1>
       </div>
