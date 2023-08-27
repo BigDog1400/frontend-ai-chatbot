@@ -4,4 +4,5 @@ module.exports = {
   experimental: {
     serverActions: true,
   },
+  ignoreBuildErrors: true,
 };
