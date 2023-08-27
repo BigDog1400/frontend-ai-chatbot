@@ -17,8 +17,6 @@ export const Sidebar = () => {
   const param = useParams();
   const path = usePathname();
 
-  console.log(data);
-
   if (path !== '/sign-in')
     return (
       <div className='w-72 py-12 left-0 z-10  border-r bg-background p-6 shadow-lg overflow-y-auto h-screen'>
