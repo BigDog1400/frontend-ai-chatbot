@@ -7,6 +7,7 @@ import { Chat } from '@/components/chat'
 
 export const runtime = 'edge'
 export const preferredRegion = 'home'
+const URL = process.env.API_URL;
 
 export interface ChatPageProps {
   params: {
@@ -14,37 +15,38 @@ export interface ChatPageProps {
   }
 }
 
-export async function generateMetadata({
-  params
-}: ChatPageProps): Promise<Metadata> {
-  const session = await auth()
 
-  if (!session?.user) {
-    return {}
-  }
-
-  const chat = await getChat(params.id, session.user.id)
-  return {
-    title: chat?.title.toString().slice(0, 50) ?? 'Chat'
-  }
-}
+export type Chats = {
+  senderBy: 'client' | 'customerService';
+  content: string;
+  createAt: Date;
+}[];
 
 export default async function ChatPage({ params }: ChatPageProps) {
   const session = await auth()
+  const chats = await fetch(`${URL}/api/tickets/${params.id}/chats`)
+    .then<Chats>(res => res.json())
+    .catch(err => console.log(err));
 
   if (!session?.user) {
     redirect(`/sign-in?next=/chat/${params.id}`)
   }
 
-  const chat = await getChat(params.id, session.user.id)
+  console.log({ chats })
 
-  if (!chat) {
+  if (!chats) {
     notFound()
   }
 
-  if (chat?.userId !== session?.user?.id) {
-    notFound()
-  }
+  // if (chat?.userId !== session?.user?.id) {
+  //   notFound()
+  // }
 
-  return <Chat id={chat.id} initialMessages={chat.messages} />
+  return <Chat
+    chats={chats}
+    id={"3"} initialMessages={[{
+      id: 'df',
+      content: 'bla bla',
+      role: 'system',
+    }]} />
 }

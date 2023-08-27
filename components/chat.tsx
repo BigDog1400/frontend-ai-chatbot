@@ -25,14 +25,18 @@ import { XIcon } from './ui/icons';
 import { useAtBottom } from '@/lib/hooks/use-at-bottom';
 import { IconArrowDown } from '@/components/ui/icons';
 import { cn } from '@/lib/utils';
+import { Chats } from '@/app/chat/[id]/page';
 
 const IS_PREVIEW = process.env.VERCEL_ENV === 'preview';
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[];
   id?: string;
+
+  /** new props for our example */
+  chats: Chats
 }
 
-export function Chat({ id, initialMessages, className }: ChatProps) {
+export function Chat({ id, initialMessages, className, chats }: ChatProps) {
   const [previewToken, setPreviewToken] = useLocalStorage<string | null>(
     'ai-token',
     null,
@@ -76,24 +80,17 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
     <>
       <aside className='inset-y-0 left-72 w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 h-full'>
         <div className='col-span-1 flex gap-2 flex-col mx-auto mt-20'>
-          <div
-            className={`rounded-lg border bg-background p-8 ${
-              true ? 'border-blue-500' : 'border-gray-300'
-            } cursor-pointer`}
-          >
-            <div className='font-bold text-2xl'>OpenAI Chatbot</div>
-            <div className='text-sm text-gray-400'>
-              AI chatbot using GPTdds-3
-            </div>
-          </div>
-          <div className='rounded-lg border bg-background p-8'>
-            <div className='font-bold text-2xl'>OpenAI Chatbot</div>
-            <div className='text-sm text-gray-400'>AI chatbot using GPTs-3</div>
-          </div>
-          <div className='rounded-lg border bg-background p-8'>
-            <div className='font-bold text-2xl'>OpenAI Chatbot</div>
-            <div className='text-sm text-gray-400'>AI chatbot using GPTs-3</div>
-          </div>
+          {
+            chats?.map(chat => (<div
+              className={`rounded-lg border bg-background p-8 ${true ? 'border-blue-500' : 'border-gray-300'
+                } cursor-pointer`}
+            >
+              <div className='font-bold text-2xl'>OpenAI Chatbot</div>
+              <div className='text-sm text-gray-400'>
+                AI chatbot using GPTdds-3
+              </div>
+            </div>))
+          }
         </div>
       </aside>
 
@@ -159,6 +156,7 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
         onClick={() => {
           if (scrollContainerRef.current) {
             const element = scrollContainerRef.current;
+            // @ts-ignore
             element.scrollTop = element.scrollHeight;
           }
         }}
