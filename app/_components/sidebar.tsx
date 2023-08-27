@@ -33,12 +33,12 @@ export const Sidebar = () => {
                   <Link
                     href={`/chat/${ticket.number - 1}`}
                     key={ticket.number}
-                    className={`relative rounded-lg border border-gray-300 shadow-sm p-3  ${
-                      parseInt(param.id) === index + 1 ? 'bg-green-50' : ''
+                    className={`relative rounded-2xl border border-gray-300 shadow-sm p-3  ${
+                      parseInt(param.id) === index + 1 ? 'bg-gray-100' : ''
                     }  my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400`}
                   >
                     <p>Ticket {ticket.number - 1}</p>
-                    <p>{ticket.reason}</p>
+                    <p className='font-semibold'>{ticket.reason}</p>
                     <small>
                       {ticket.status.charAt(0).toUpperCase() +
                         ticket.status.slice(1)}
