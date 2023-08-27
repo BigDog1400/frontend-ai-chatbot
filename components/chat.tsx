@@ -215,7 +215,7 @@ export function Chat({ id, className }: ChatProps) {
                   <Button
                     key={'dd' + index}
                     variant='outline'
-                    className='h-auto py-1 px-3 text-base text-justify flex'
+                    className='h-auto py-2 px-3 text-base text-justify flex'
                     /* eslint-disable */
                     onClick={()=> copyText(message)}
                   >
@@ -225,7 +225,7 @@ export function Chat({ id, className }: ChatProps) {
                       viewBox='0 0 24 24'
                       strokeWidth={1.5}
                       stroke='currentColor'
-                      className='w-24 h-24 mr-2 text-slate-600'
+                      className='w-16 h-16 mr-2 text-slate-600'
                     >
                       <path
                         strokeLinecap='round'
