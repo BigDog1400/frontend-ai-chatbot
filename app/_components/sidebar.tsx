@@ -15,35 +15,43 @@ export const Sidebar = () => {
   });
 
   const param = useParams();
+  const path = usePathname();
 
-  console.log(param.id);
+  console.log(data);
 
-  return (
-    <div className='w-72 left-0 z-10  border-r bg-background p-6 shadow-lg overflow-y-auto h-screen'>
-      <div className='flex flex-col sm:flex-row sm:justify-start sm:space-x-2'>
-        <h1>Tickets History</h1>
+  if (path !== '/sign-in')
+    return (
+      <div className='w-72 py-12 left-0 z-10  border-r bg-background p-6 shadow-lg overflow-y-auto h-screen'>
+        <div className='flex flex-col sm:flex-row sm:justify-start sm:space-x-2'>
+          <h1 className='font-extrabold text-2xl'>Tickets History</h1>
+        </div>
+        <div>
+          {data ? (
+            <div className='flex flex-col'>
+              {data.map((ticket: any, index: number) => (
+                <>
+                  <Link
+                    href={`/chat/${ticket.number}`}
+                    key={index}
+                    className={`relative rounded-2xl border border-gray-300 shadow-sm p-3  ${
+                      parseInt(param.id) === ticket.number ? 'bg-gray-100' : ''
+                    }  my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400 drop-shadow-sm transition`}
+                  >
+                    <p>Ticket {ticket.number - 1}</p>
+                    <p className='font-semibold'>{ticket.reason}</p>
+                    <small>
+                      {ticket.status.charAt(0).toUpperCase() +
+                        ticket.status.slice(1)}
+                    </small>
+                  </Link>
+                </>
+              ))}
+            </div>
+          ) : (
+            <p>There are not tickets</p>
+          )}
+        </div>
       </div>
-      <div>
-        {data ? (
-          <div className='flex flex-col'>
-            {data.map((ticket: any, index: number) => (
-              <>
-                <Link
-                  href={`/chat/${ticket.number}`}
-                  key={ticket.number}
-                  className={`relative rounded-lg border border-gray-300 shadow-sm p-3  ${
-                    parseInt(param.id) === index + 1 ? 'bg-red-400' : ''
-                  }  my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400`}
-                >
-                  {ticket.initialContext}
-                </Link>
-              </>
-            ))}
-          </div>
-        ) : (
-          <p>There are not tickets</p>
-        )}
-      </div>
-    </div>
-  );
+    );
+  return <div></div>;
 };
