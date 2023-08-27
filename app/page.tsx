@@ -50,6 +50,7 @@ export default function IndexPage() {
 
    useEffect(() => {
     if(!chatQuery.data) return;
+    if(chatQuery.data.length === 0) return;
     router.push(`/chat/${chatQuery.data[0].number}`);
   }, [router, chatQuery.data]);
 
@@ -58,5 +59,6 @@ export default function IndexPage() {
 
  
 
+  
   return null;
 }
