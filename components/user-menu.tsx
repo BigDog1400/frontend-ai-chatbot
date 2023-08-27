@@ -58,7 +58,7 @@ export function UserMenu({ user }: UserMenuProps) {
             }
             className="text-xs"
           >
-            Log Out
+            Salir Sesion
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

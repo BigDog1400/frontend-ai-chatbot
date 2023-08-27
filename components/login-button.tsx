@@ -13,7 +13,7 @@ interface LoginButtonProps extends ButtonProps {
 }
 
 export function LoginButton({
-  text = 'Login with GitHub',
+  text = 'Ingresar con Github',
   showGithubIcon = true,
   className,
   ...props
