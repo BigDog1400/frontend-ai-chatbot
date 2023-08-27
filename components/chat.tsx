@@ -142,24 +142,24 @@ export function Chat({ id, className }: ChatProps) {
               true ? 'border-blue-50' : 'border-gray-300'
             } cursor-pointer`}
           >
-            <div className='font-bold text-2xl'>Cliente</div>
+            <div className='font-bold text-2xl'>Cliente 👨🧑</div>
           </div>
           <div
-            className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth ${
+            className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth opacity-70 ${
               true ? 'border-gray-100' : 'border-gray-300'
             } cursor-pointer`}
           >
-            <div className='font-bold text-2xl'>Intermediario</div>
+            <div className='font-bold text-2xl'>Intermediario 👥</div>
 
-            <small>Disabled</small>
+            <small>Proximamente</small>
           </div>
           <div
-            className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth ${
+            className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth opacity-70 ${
               true ? 'border-gray-100' : 'border-gray-300'
             } cursor-pointer`}
           >
-            <div className='font-bold text-2xl'>Negocio</div>
-            <small>Disabled</small>
+            <div className='font-bold text-2xl'>Negocio 🏢</div>
+            <small>Proximamente</small>
           </div>
         </div>
       </aside>
