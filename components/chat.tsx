@@ -104,6 +104,35 @@ export function Chat({ id, className }: ChatProps) {
     setInput(message);
   };
 
+
+  function smoothScrollToBottom(element: HTMLElement) {
+    const targetScroll = element.scrollHeight - element.clientHeight;
+    const startScroll = element.scrollTop;
+    const change = targetScroll - startScroll;
+    const startTime = performance.now();
+  
+    function animateScroll(currentTime: number) {
+      const elapsedTime = currentTime - startTime;
+      const duration = 500; // Duración en ms. Puedes ajustar este valor a tu gusto.
+  
+      const newScroll = easeInOutQuad(elapsedTime, startScroll, change, duration);
+      element.scrollTop = newScroll;
+  
+      if (elapsedTime < duration) {
+        requestAnimationFrame(animateScroll);
+      }
+    }
+  
+    requestAnimationFrame(animateScroll);
+  }
+  
+  function easeInOutQuad(t: number, b: number, c: number, d: number): number {
+    t /= d / 2;
+    if (t < 1) return (c / 2) * t * t + b;
+    t--;
+    return (-c / 2) * (t * (t - 2) - 1) + b;
+  }
+
   return (
     <>
    <aside className='inset-y-0 left-72 w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 h-full'>
@@ -224,9 +253,7 @@ export function Chat({ id, className }: ChatProps) {
         )}
         onClick={() => {
           if (scrollContainerRef.current) {
-            const element = scrollContainerRef.current;
-            // @ts-ignore
-            element.scrollTop = element.scrollHeight;
+            smoothScrollToBottom(scrollContainerRef.current);
           }
         }}
       >
