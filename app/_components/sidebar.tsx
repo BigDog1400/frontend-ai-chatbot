@@ -2,23 +2,14 @@
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-const URL = process.env.API_URL;
-
-const getTicketList = async () => {
-  const ticketList = await fetch(`${URL}/api/tickets`)
-    .then(res => res.json())
-    .catch(err => console.log(err));
-
-  return ticketList;
-};
-
 export const Sidebar = () => {
-  const { data, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ['tickets'],
     queryFn: () =>
       fetch(`https://backend-production-dbba.up.railway.app/api/tickets`).then(
         res => res.json(),
       ),
+    refetchInterval: 5000,
   });
 
   return (
@@ -32,9 +23,9 @@ export const Sidebar = () => {
             {data.map((ticket: any) => (
               <>
                 <Link
-                  href={`chat/${ticket.number}`}
+                  href={`/chat/${ticket.number}`}
                   key={ticket.number}
-                  className='relative rounded-lg border border-gray-300 shadow-sm p-3  my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400'
+                  className={`relative rounded-lg border border-gray-300 shadow-sm p-3   my-3 cursor-pointer focus-within:ring-2 focus-within:ring-offset-2 hover:border-gray-400`}
                 >
                   {ticket.initialContext}
                 </Link>
