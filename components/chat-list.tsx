@@ -61,7 +61,7 @@ export function ChatList({ messages, ModalClose, setModalClose }: ChatList) {
             <Button
               variant='outline'
               onClick={() => resolveTicket.mutate(parseInt(param.id))}
-              className='bg-green-300 border-green-300 ml-3'
+              className='bg-green-300 border-green-300 ml-3 hover:bg-green-200 hover:border-green-400'
             >
               Resolver Ticket
             </Button>
