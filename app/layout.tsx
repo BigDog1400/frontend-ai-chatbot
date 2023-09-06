@@ -13,10 +13,10 @@ import ReactQueryProvider from '@/components/react-query';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Chatbot Chat',
-    template: `%s - Chatbot`,
+    default: 'MediaGalleteBot Chat',
+    template: `%s - MediaGalleteBot`,
   },
-  description: 'AI Chatbot',
+  description: 'AI MediaGalleteBot',
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
     { media: '(prefers-color-scheme: light)', color: 'white' },

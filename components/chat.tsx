@@ -40,7 +40,7 @@ export interface Suggest {
 }
 
 export interface Message {
-  senderBy: 'client' | 'costumerService';
+  senderBy: 'client' | 'customerService';
   content: string;
   createAt: string;
 }
@@ -104,6 +104,35 @@ export function Chat({ id, className }: ChatProps) {
     setInput(message);
   };
 
+
+  function smoothScrollToBottom(element: HTMLElement) {
+    const targetScroll = element.scrollHeight - element.clientHeight;
+    const startScroll = element.scrollTop;
+    const change = targetScroll - startScroll;
+    const startTime = performance.now();
+  
+    function animateScroll(currentTime: number) {
+      const elapsedTime = currentTime - startTime;
+      const duration = 500; // Duración en ms. Puedes ajustar este valor a tu gusto.
+  
+      const newScroll = easeInOutQuad(elapsedTime, startScroll, change, duration);
+      element.scrollTop = newScroll;
+  
+      if (elapsedTime < duration) {
+        requestAnimationFrame(animateScroll);
+      }
+    }
+  
+    requestAnimationFrame(animateScroll);
+  }
+  
+  function easeInOutQuad(t: number, b: number, c: number, d: number): number {
+    t /= d / 2;
+    if (t < 1) return (c / 2) * t * t + b;
+    t--;
+    return (-c / 2) * (t * (t - 2) - 1) + b;
+  }
+
   return (
     <>
    <aside className='inset-y-0 left-72 w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 h-full'>
@@ -113,24 +142,24 @@ export function Chat({ id, className }: ChatProps) {
               true ? 'border-blue-50' : 'border-gray-300'
             } cursor-pointer`}
           >
-            <div className='font-bold text-2xl'>Cliente</div>
+            <div className='font-bold text-2xl'>Cliente 👨🧑</div>
           </div>
           <div
-            className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth ${
+            className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth opacity-70 ${
               true ? 'border-gray-100' : 'border-gray-300'
             } cursor-pointer`}
           >
-            <div className='font-bold text-2xl'>Intermediario</div>
+            <div className='font-bold text-2xl'>Intermediario 👥</div>
 
-            <small>Disabled</small>
+            <small>Proximamente</small>
           </div>
           <div
-            className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth ${
+            className={`rounded-lg border bg-background p-8 transition-all ease-in-out duration-200 shadow-smooth opacity-70 ${
               true ? 'border-gray-100' : 'border-gray-300'
             } cursor-pointer`}
           >
-            <div className='font-bold text-2xl'>Negocio</div>
-            <small>Disabled</small>
+            <div className='font-bold text-2xl'>Negocio 🏢</div>
+            <small>Proximamente</small>
           </div>
         </div>
       </aside>
@@ -186,7 +215,7 @@ export function Chat({ id, className }: ChatProps) {
                   <Button
                     key={'dd' + index}
                     variant='outline'
-                    className='h-auto py-1 px-3 text-base text-justify flex'
+                    className='h-auto py-2 px-3 text-base text-justify flex'
                     /* eslint-disable */
                     onClick={()=> copyText(message)}
                   >
@@ -196,7 +225,7 @@ export function Chat({ id, className }: ChatProps) {
                       viewBox='0 0 24 24'
                       strokeWidth={1.5}
                       stroke='currentColor'
-                      className='w-24 h-24 mr-2 text-slate-600'
+                      className='w-16 h-16 mr-2 text-slate-600'
                     >
                       <path
                         strokeLinecap='round'
@@ -224,9 +253,7 @@ export function Chat({ id, className }: ChatProps) {
         )}
         onClick={() => {
           if (scrollContainerRef.current) {
-            const element = scrollContainerRef.current;
-            // @ts-ignore
-            element.scrollTop = element.scrollHeight;
+            smoothScrollToBottom(scrollContainerRef.current);
           }
         }}
       >
